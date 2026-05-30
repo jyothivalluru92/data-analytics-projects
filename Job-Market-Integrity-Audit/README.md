@@ -39,6 +39,79 @@ Designed a "Modern Enterprise" dark-mode dashboard featuring:
 * **Source Reliability:** Comparative analysis showed varying levels of listing "freshness" between platforms.
 
 ---
+### code here ###
+
+# Edamam API credentials and country code
+APP_ID = "----------------------------------" 
+APP_KEY = "----------------------------------"
+COUNTRY = "in" # 'in' for India, 'us' for USA, 'gb' for UK
+
+import requests
+import pandas as pd
+from datetime import datetime
+
+# --- FUNCTION 1: FETCH FROM ADZUNA (Uses your Keys) ---
+def fetch_adzuna(app_id, app_key):
+    url = f"https://api.adzuna.com/v1/api/jobs/in/search/1" 
+    params = {"app_id": app_id, "app_key": app_key, "results_per_page": 20, "what": "data analyst"}
+    try:
+        response = requests.get(url, params=params)
+        data = response.json()
+        jobs = []
+        for job in data.get("results", []):
+            jobs.append({
+                "Job_ID": f"adzuna_{job.get('id')}",
+                "Title": job.get('title'),
+                "Company": job.get('company', {}).get('display_name'),
+                "Date": job.get('created'),
+                "Source": "Adzuna"
+            })
+        return jobs
+    except:
+        return []
+
+# --- FUNCTION 2: FETCH FROM THE MUSE (No Key Needed - Very Reliable) ---
+def fetch_the_muse():
+    # Searching for Data Analyst jobs on page 1
+    url = "https://www.themuse.com/api/public/jobs?category=Data%20Science&category=Data%20and%20Analytics&page=1"
+    try:
+        response = requests.get(url)
+        data = response.json()
+        jobs = []
+        for job in data.get("results", []):
+            jobs.append({
+                "Job_ID": f"muse_{job.get('id')}",
+                "Title": job.get('name'),
+                "Company": job.get('company', {}).get('name'),
+                "Date": job.get('publication_date'),
+                "Source": "The Muse"
+            })
+        return jobs
+    except:
+        return []
+
+# --- THE EXECUTION ---
+print("Fetching fresh data...")
+list_adzuna = fetch_adzuna(APP_ID, APP_KEY)
+list_muse = fetch_the_muse()
+
+all_jobs = list_adzuna + list_muse
+df = pd.DataFrame(all_jobs)
+
+# Save the file
+today = datetime.now().strftime("%Y-%m-%d")
+filename = f"jobs_{today}.csv"
+df.to_csv(filename, index=False)
+
+print(f"Success! I found {len(df)} jobs total.")
+print(df['Source'].value_counts()) # This will show you exactly how many from each
+df.head()
+
+# Check how many jobs came from each source
+print(df['Source'].value_counts())
+
+# Show the total number of unique jobs found
+print(f"\nTotal unique Job IDs: {df['Job_ID'].nunique()}")
 
 ## 🚀 How to Run
 1.  **Clone** this repository.
