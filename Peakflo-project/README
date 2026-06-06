@@ -1,0 +1,156 @@
+# Peakflo Competitive Review Analysis
+
+A data-driven competitive intelligence project analysing 316 real customer reviews across Peakflo and three of its direct competitors — Chargebee, Razorpay and Zoho Books.
+
+---
+
+## What This Project Does
+
+This project collects, cleans and analyses real customer reviews to answer one business question:
+
+> **Where are Peakflo's competitors losing customers — and how can Peakflo capitalise on that?**
+
+---
+
+## Key Findings
+
+| Company | Reviews | Avg Sentiment | Negative Rate |
+|---|---|---|---|
+| Peakflo | 51 | +0.435 | 6% |
+| Chargebee | 98 | +0.443 | 26% |
+| Zoho Books | 93 | +0.483 | 19% |
+| Razorpay | 78 | -0.255 | 65% |
+
+- **Razorpay** is the only company with a negative average sentiment score (-0.255). 65% of all its reviews are negative, driven by payment holds, fraud complaints and zero support response.
+- **Chargebee** has a 26% negative rate. Core complaints center around poor support quality and pricing discrimination against long-term customers.
+- **Zoho Books** has a 19% negative rate. Customers report being transferred between support agents for hours with no resolution.
+- **Peakflo** has a negative rate of just 6% — 10x better than Razorpay and 4x better than Chargebee.
+
+---
+
+## Project Structure
+
+```
+peakflo-project/
+│
+├── peakflo_reviews1.csv        # Raw Peakflo reviews from G2 (page 1)
+├── peakflo_reviews2.csv        # Raw Peakflo reviews from G2 (page 2)
+├── peakflo_reviews3.csv        # Raw Peakflo reviews from G2 (page 3)
+├── peakflo_reviews4.csv        # Raw Peakflo reviews from G2 (page 4)
+├── peakflo_reviews5.csv        # Raw Peakflo reviews from G2 (page 5)
+├── peakflo_reviews6.csv        # Raw Peakflo reviews from G2 (page 6)
+├── peakflo_reviews7.csv        # Raw Peakflo reviews from G2 (page 7)
+├── chargebee_reviews.csv       # Raw Chargebee reviews from Trustpilot
+├── razorpay_reviews.csv        # Raw Razorpay reviews from Trustpilot
+├── zoho_reviews.csv            # Raw Zoho Books reviews from Trustpilot
+│
+├── raw_reviews.csv             # Merged dataset (320 rows)
+├── clean_reviews.csv           # Cleaned dataset (316 rows)
+├── sentiment_reviews.csv       # Final dataset with sentiment scores
+│
+├── peakflo_analysis.ipynb      # Main Jupyter notebook (all stages)
+│
+├── chart1_rating_distribution.png
+├── chart2_complaint_words.png
+├── chart3_review_volume.png
+├── chart4_avg_ratings.png
+├── chart5_sentiment_distribution.png
+├── chart6_avg_sentiment.png
+└── chart7_negative_counts.png
+```
+
+---
+
+## Pipeline Overview
+
+```
+Stage 2 — Data Collection
+    ↓
+Collected manually using Instant Data Scraper browser extension
+G2 blocked automated scraping — adapted and collected page by page
+51 Peakflo reviews from G2 | 265 competitor reviews from Trustpilot
+
+Stage 3 — Data Cleaning
+    ↓
+Removed duplicates, empty rows, and reviews under 20 characters
+Standardised rating format and added review length column
+316 clean reviews ready for analysis
+
+Stage 4 — Exploratory Data Analysis
+    ↓
+Chart 1 — Rating distribution across all companies
+Chart 2 — Top complaint words from negative reviews
+Chart 3 — Total review volume per company
+Chart 4 — Average star rating per company
+
+Stage 5 — Sentiment Analysis
+    ↓
+VADER sentiment scoring for every review (-1 to +1)
+Labelled each review as Positive, Neutral or Negative
+Gap analysis — surfaced real complaints from competitor negative reviews
+
+Stage 6 — Visualisation & Summary
+    ↓
+Chart 5 — Sentiment distribution per company
+Chart 6 — Average sentiment score per company
+Chart 7 — Negative review count per company
+Final business insight and recommendation
+```
+
+---
+
+## Tech Stack
+
+| Tool | Purpose |
+|---|---|
+| Python 3 | Core language |
+| pandas | Data loading, cleaning, merging |
+| matplotlib | Chart generation |
+| seaborn | Chart styling |
+| vaderSentiment | Sentiment analysis |
+| re | Text cleaning and pattern extraction |
+| Jupyter Notebook | Development and presentation |
+| Instant Data Scraper | Browser extension for data collection |
+
+---
+
+## Data Sources
+
+- **Peakflo** — G2 (g2.com/products/peakflo/reviews)
+- **Chargebee** — Trustpilot
+- **Razorpay** — Trustpilot
+- **Zoho Books** — Trustpilot
+
+### Transparency Note
+
+Peakflo reviews were collected from G2, a B2B software review platform, while competitor reviews came from Trustpilot, which attracts a broader consumer audience. Trustpilot may naturally surface more negative reviews than G2. This limitation has been acknowledged throughout the analysis and does not change the core finding that all three competitors share consistent, pattern-level failures around customer support and payment reliability.
+
+---
+
+## Business Recommendation
+
+All three competitors share one common failure — **poor customer support and broken trust around payments**. These are not minor complaints. They are the reasons customers switch providers.
+
+Peakflo's support quality and payment reliability should be the central message in every sales conversation and marketing campaign — because this data proves it is exactly where every competitor is losing customers right now.
+
+---
+
+## Setup
+
+```bash
+# Clone or download the project folder
+cd D:\peakflo-project
+
+# Install dependencies
+pip install pandas matplotlib seaborn vaderSentiment
+
+# Open the notebook
+jupyter notebook peakflo_analysis.ipynb
+```
+
+---
+
+## Author
+
+Built by JYOTHI VALLURU — June 2026  
+Data collected and analysed independently as a competitive intelligence project targeting the B2B fintech space.
